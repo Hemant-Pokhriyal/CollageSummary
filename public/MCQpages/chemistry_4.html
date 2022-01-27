@@ -1,0 +1,284 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap');
+
+    * {
+        top: 0px;
+        margin: 0px;
+    }
+
+    #test {
+        background-color: rgb(226 241 255);
+        height: 100vh;
+        border-radius: 8px;
+    }
+
+    .main {
+        height: 85vh;
+        width: 90vw;
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .main ul {
+        display: contents;
+    }
+
+    .main h2 {
+        font-family: 'Ubuntu', sans-serif;
+        margin-top: 0.5rem;
+    }
+
+    .main ul li {
+        font-family: 'Roboto Condensed', sans-serif;
+        list-style: none;
+        margin: 0.5rem;
+    }
+
+    #button {
+        display: flex;
+        justify-content: center;
+    }
+
+    #button2 {
+        display: flex;
+        justify-content: center;
+    }
+
+    #submit {
+        width: fit-content;
+        /* margin: 1rem 10rem; */
+        background-color: #034079;
+        color: white;
+        border-radius: 4px;
+        padding: 0.4rem;
+    }
+
+    #submit:hover {
+        cursor: pointer;
+    }
+
+    #showScore {
+        height: 25vh;
+        background-color: #eefaff;
+        margin-top: 1rem;
+        border-radius: 8px;
+    }
+
+    #showScore h3 {
+        margin-top: 0.5rem;
+        text-align: center;
+    }
+
+    .btn {
+        background-color: #034079;
+        color: white;
+        border-radius: 4px;
+        padding: 0.4rem;
+    }
+
+    .btn:hover {
+        cursor: pointer;
+    }
+</style>
+
+
+
+<section id="test">
+    <div class="main">
+        <h2 class="question">Q1. will be here what is the full form </h2>
+        <ul>
+            <li>
+                <input type="radio" name="answer" id="ans1" class="answer">
+                <label for="ans1" id="option1">Answer</label>
+            </li>
+            <li>
+                <input type="radio" name="answer" id="ans2" class="answer">
+                <label for="ans2" id="option2">Answer</label>
+            </li>
+            <li>
+                <input type="radio" name="answer" id="ans3" class="answer">
+                <label for="ans3" id="option3">Answer</label>
+            </li>
+            <li>
+                <input type="radio" name="answer" id="ans4" class="answer">
+                <label for="ans4" id="option4">Answer</label>
+            </li>
+        </ul>
+        <div id="button">
+            <button id="submit">Submit</button>
+        </div>
+        <div id="showScore" class="scoreArea">
+
+        </div>
+    </div>
+</section>
+
+<script>
+    //javascript for mcq ection    
+
+    const quizdata = [
+        {
+            question: "Q1.  Hydrogen has a positive charge?",
+            a: "Electron",
+            b: "Proton",
+            c: "Both A & B",
+            d: "None Of these",
+            ans: "ans2"
+        },
+
+        {
+            question: "Q2.  In which branch of chemistry we study hydrocarbon and their derivatives?",
+            a: "Inorganic chemistry",
+            b: "Organic chemistry",
+            c: "Both A & B",
+            d: "None of the above",
+        },
+
+        {
+            question: "Q3. Vapour pressure of a liquid solvent ………………..when a non volatile solute is dissolve in it.",
+            a: "Increase",
+            b: "Decrease",
+            c: "no change",
+            d: "Expand",
+            ans: "ans2"
+        },
+
+        {
+            question: "Q4. ………………. is used in Rast method because it has a high value of Kf.",
+            a: "Camphor",
+            b: "Bi phenyl",
+            c: "Naphthalene",
+            d: "Sodium chloride",
+            ans: "ans1"
+        },
+
+        {
+            question: "Q5. Collision theory is application for__________.",
+            a: "Unimolecular reaction",
+            b: "Bimolecular reaction",
+            c: "Rearrangement reaction",
+            d: "Polyatomic reaction",
+            ans: "ans2"
+        },
+
+        {
+            question: "Q6. Collision theory is application for__________.",
+            a: "Unimolecular reaction",
+            b: "Bimolecular reaction",
+            c: "Rearrangement reaction",
+            d: "Polyatomic reaction",
+            ans: "ans4"
+        },
+
+        {
+            question: "Q7. Based on dipole moment, geometries of BF3 and NH3 are respectively.",
+            a: "pyramidal and planar",
+            b: "planar and pyramidal",
+            c: "pyramidal and cubic",
+            d: "cubic and planar",
+            ans: "ans1"
+        },
+
+        {
+            question: "Q8. Helmholtz model represents ________ model",
+            a: "diffused layer",
+            b: "fixed layer",
+            c: "half diffused and half fixed layer",
+            d: "none of the above",
+            ans: "ans2"
+        },
+
+        {
+            question: "Q9. A semipermeable membrane is permeable to …………….. molecules only.",
+            a: "Solvent",
+            b: "Solute",
+            c: "Solution",
+            d: "Solid particles",
+            ans: "ans1"
+        },
+
+        {
+            question: "Q10. Langmuir isotherm holds good at low pressure but fails at",
+            a: "low temperature",
+            b: "high pressure",
+            c: "intermediate pressure",
+            d: "none of these",
+            ans: "ans2"
+        },
+    ];
+
+
+    const question = document.querySelector('.question');
+    const option1 = document.querySelector('#option1');
+    const option2 = document.querySelector('#option2');
+    const option3 = document.querySelector('#option3');
+    const option4 = document.querySelector('#option4');
+    const submit = document.querySelector('#submit');
+    const answers = document.querySelectorAll('.answer');
+    const showScore = document.querySelector('#showScore');
+
+    let questionCount = 0;
+    let score = 0;
+
+    const loadQuestion = () => {
+        const questionList = quizdata[questionCount];
+        question.innerText = questionList.question;
+        option1.innerText = questionList.a;
+        option2.innerText = questionList.b;
+        option3.innerText = questionList.c;
+        option4.innerText = questionList.d;
+        showScore.innerHTML = `
+        <h3>Question ${questionCount + 1}/${quizdata.length}</h3>
+    `
+    }
+
+    loadQuestion();
+    function getCheckAnswer() {
+        let answer;
+        answers.forEach((currentAnswer) => {
+            if (currentAnswer.checked) {
+                answer = currentAnswer.id;
+            }
+
+        });
+        return answer;
+    }
+
+    const deSelectOptions = () => {
+        answers.forEach((currentAnswer) => {
+            currentAnswer.checked = false;
+        })
+    }
+
+    submit.addEventListener('click', () => {
+        const checkAnswer = getCheckAnswer();
+
+        if (checkAnswer === quizdata[questionCount].ans) {
+            score++;
+            console.log(score);
+        };
+
+        questionCount += 1;
+        if (questionCount < quizdata.length) {
+            deSelectOptions();
+            loadQuestion();
+        }
+        else {
+            showScore.innerHTML = `
+           <h3> Your Score:  ${score}/${quizdata.length} </h3>
+           <h3> Correct: ${score}&nbsp&nbsp&nbsp&nbspIncorrect: ${quizdata.length - score} </h3>
+           <div id="button2"><button class="btn" onclick="location.reload()">Restart</button></div>           
+        `;
+
+            // showScore.classList.remove('scoreArea');
+        }
+    });
+
+
+
+
+
+</script>
